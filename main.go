@@ -16,7 +16,7 @@ func main() {
 }
 
 func getToken() (string, error) {
-	token := os.Getenv("INPUT_GITHUB_TOKEN")
+	token := os.Getenv("INPUT_TOKEN")
 	if token == "" {
 		return "", fmt.Errorf("GITHUB_TOKEN이 존재하지 않습니다.")
 	}
