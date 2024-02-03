@@ -12,4 +12,4 @@ FROM alpine
 
 COPY --from=builder /main /main
 
-ENTRYPOINT ["/main"]
+ENTRYPOINT ["sh", "-c", "echo $INPUT_GITHUB_TOKEN"]
