@@ -1,0 +1,11 @@
+name: 'D-n Rule'
+description: '매일 라벨을 1씩 감소시키고 D-0에 도달했을때 멈춥니다.'
+inputs:
+  github-token:
+    description: '깃허브 인증 토큰'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.github-token }}
