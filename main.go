@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/google/go-github/v32/github"
@@ -12,6 +14,7 @@ import (
 )
 
 func main() {
+	dDayRegex := regexp.MustCompile(`D-(\d+)`)
 	env, err := getEnvironment()
 
 	if err != nil {
@@ -37,12 +40,36 @@ func main() {
 		}
 
 		for _, pullRequest := range pullRequests {
-			// 해당 로직에 PR 라벨 변경 로직 추가
-			fmt.Printf("#%v %v\n", *pullRequest.Number, *pullRequest.Title)
+			var newLabels []string
+			var isChange = false
+
+			for _, label := range pullRequest.Labels {
+				dDayLabel := dDayRegex.FindStringSubmatch(*label.Name)
+				if len(dDayLabel) == 2 {
+					day, err := strconv.Atoi(dDayLabel[1])
+					if err != nil {
+						log.Printf("라벨 숫자 변환 실패 : %v", err)
+						continue
+					}
+					if day > 0 {
+						newLabels = append(newLabels, fmt.Sprintf("D-%d", day-1))
+						isChange = true
+					} else {
+						newLabels = append(newLabels, *label.Name)
+					}
+				}
+			}
+			if isChange {
+				_, _, err = client.Issues.ReplaceLabelsForIssue(ctx, env.owner, env.repository, *pullRequest.Number, newLabels)
+				if err != nil {
+					log.Printf("라벨 업데이트가 실패했습니다\nPR 번호 : %#v PR 이름 : %v\n[ %v ]", *pullRequest.Number, *pullRequest.Title, err)
+				}
+			}
 		}
 		if response.NextPage == 0 {
 			break
 		}
+		opts.Page = response.NextPage
 	}
 }
 
