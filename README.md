@@ -2,7 +2,7 @@
 
 ## 개요
 
-- 리뷰시 PR의 우선순위를 파악하기 위해 사용되는 D-n룰 [참고](https://blog.banksalad.com/tech/banksalad-code-review-culture/)을 자동화하기 위한 Actions 스크립트입니다.
+- 리뷰시 PR의 우선순위를 파악하기 위해 사용되는 D-n룰 ([참고](https://blog.banksalad.com/tech/banksalad-code-review-culture/))을 자동화하기 위한 Actions 스크립트입니다.
 - 해당 스크립트가 실행되는 경우 D-n 에서 D-(n-1)로 변경됩니다.
   - 예) D-5 인경우 D-4로 변경
 
