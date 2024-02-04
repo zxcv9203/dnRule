@@ -54,9 +54,9 @@ func main() {
 					if day > 0 {
 						newLabels = append(newLabels, fmt.Sprintf("D-%d", day-1))
 						isChange = true
-					} else {
-						newLabels = append(newLabels, *label.Name)
 					}
+				} else {
+					newLabels = append(newLabels, *label.Name)
 				}
 			}
 			if isChange {
